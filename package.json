@@ -1,0 +1,24 @@
+{
+  "name": "yet-another-telegram-todo-bot",
+  "version": "1.0.0",
+  "description": "This is another todo telegram bot made to dominate the world once for all!",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DBarbero/yattb.git"
+  },
+  "keywords": [
+    "todo",
+    "bot",
+    "telegram"
+  ],
+  "author": "DBM",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DBarbero/yattb/issues"
+  },
+  "homepage": "https://github.com/DBarbero/yattb#readme"
+}
