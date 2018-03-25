@@ -4,7 +4,9 @@
   "description": "This is another todo telegram bot made to dominate the world once for all!",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "nodemon --exec babel-node index.js",
+    "build": "babel src -d dist"
   },
   "repository": {
     "type": "git",
@@ -20,5 +22,15 @@
   "bugs": {
     "url": "https://github.com/DBarbero/yattb/issues"
   },
-  "homepage": "https://github.com/DBarbero/yattb#readme"
+  "homepage": "https://github.com/DBarbero/yattb#readme",
+  "dependencies": {
+    "botgram": "^2.0.1",
+    "dotenv": "^5.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "nodemon": "^1.17.2"
+  }
 }
