@@ -16,11 +16,16 @@ if (!TELEGRAM_BOT_TOKEN) {
 const bot = new Botgram(TELEGRAM_BOT_TOKEN)
 
 /* Bot state */
-bot.context({ todoList: new Todo() })
+bot.context({ todoList: new Todo(), chats: {} })
 
 bot.all((msg, reply, next) => {
+  const chatId = msg.chat.id
   if (msg.from.id === parseInt(ADMIN_ID))
     msg.hasPrivileges = true
+  if (msg.context.chats[chatId.toString()] === undefined) {
+    msg.context.chats = {...msg.context.chats, [chatId.toString()]: { todoList: new Todo() }}
+    console.log(`new chat todo list created for ${msg.chat.id}`);
+  }
   next()
 })
 
@@ -36,12 +41,12 @@ bot.command('help', (msg, reply, next) => {
 })
 
 bot.command('list', (msg, reply, next) => {
-  reply.text(`______TO DO LIST_____\n ${msg.context.todoList.showTodos()}`)
+  const { todoList } = getTodoList(msg)
+  reply.text(`______TO DO LIST_____\n ${todoList.showTodos()}`)
 })
 
 bot.command('add', (msg, reply, next) => {
-  const { todoList } = msg.context
-
+  const { todoList } = getTodoList(msg)
   console.log(`Received a /add command from ${msg.from.username}:${msg.from.id}`);
   let todoText = msg.args()
   console.log(`Todo text: ${todoText}`);
@@ -53,7 +58,7 @@ bot.command('add', (msg, reply, next) => {
 })
 
 bot.command('del', (msg, reply, next) => {
-  const { todoList } = msg.context
+  const { todoList } = getTodoList(msg)
   let index = msg.args()
   if (index.length)
     todoList.deleteByIndex(index)
@@ -75,3 +80,9 @@ bot.command('pwd', (msg, reply, next) => {
 bot.text((msg, reply, next) => { reply.text(`\u{1F614} Sorry, I'm a simple AI. I'm not programmed to answer that...`) })
 
 bot.command((msg, reply) => reply.text("Invalid command."))
+
+/* Helper */
+const getTodoList = (msg) => {
+  const { id } = msg.chat
+  return msg.context.chats[id.toString()]
+}
